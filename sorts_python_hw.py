@@ -1,32 +1,49 @@
 '''------------------------------------------------Сортировка подсчетом-----------------------------------------------------------'''
-def counting_sort(arr: list) -> None:
+def counting_sort(arr: list) -> tuple[list, int]:
+    swaps = 0 #счетчик перезаписей и перестановок
     max_val = max(arr) 
     min_val = min(arr) 
-    count_list = [0] * (max_val - min_val +1)
+    count_list = [0] * (max_val - min_val +1) #делаем массив нулей длиной с рабочий диапазон, чтобы расположить количества данного значения на месте его расположения в рабочем диапазоне
     for num in arr:
         count_list[num - min_val] += 1
+        swaps += 1 #записываем каждый подсчет количества в счетчик перезаписей и перестановок
     arr.clear()
     for i in range(min_val, max_val + 1):
-        index = i - min_val
-        for j in range(count_list[index]):
+        index = i - min_val #индекс в массиве подсчетов, по которому ищем значение 
+        for _ in range(count_list[index]):
             arr.append(i)
+            swaps += 1 #записываем каждое добавление в результирующий массив в счетчик перезаписей и перестановок
+    return arr, swaps
         
 '''------------------------------------------------------ Сортировка вставкой -----------------------------------------'''
-def ins_sort(arr: list) -> None:
+def ins_sort(arr: list) -> tuple[list, int, int]:
+    comparisons = 0 #счетчик сравнений
+    swaps = 0 #счетчик перестановок и перезаписей
     for i in range(1, len(arr)):
-        base_el = arr[i]
-        j = i - 1
-        while j >= 0 and arr[j] > base_el:
-            arr[j+1] = arr[j]
-            j -= 1
-        arr[j+1] = base_el
-    return arr
+        base_el = arr[i] #на время одной итерации присваиваем i-тому элементу статус базового
+        j = i - 1 
+        while j >= 0:
+            comparisons += 1 #за каждое сравнение с i-тым элементом
+            if arr[j] > base_el:
+                arr[j+1] = arr[j] #перетаскивание меньшего элемента влево
+                swaps += 1 #за перетаскивание
+                j -= 1 #смещение элемента с которым сравниваем
+            else: break
+        arr[j+1] = base_el #перезаписываем базовый элемент на новое место, если надо(если не надо, он останется там же и тут же сменится на новой итерации цикла)
+        swaps += 1 #за перезапись базового элемента
+    return arr, swaps, comparisons
+
 
 '''------------------------------------------------------ Сортировка пузырьком -----------------------------------------------'''
 def bubble_sort(arr: list) -> None:
+    comparisons = 0 #да уже понятно че это
+    swaps = 0 #да уже понятно че это
     n = len(arr)
     for i in range(n - 1):
-        for j in range(n - i - 1):
+        for j in range(n - i - 1): #смотрим с конца массива 
+            comparisons  += 1
             if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr 
+                arr[j], arr[j + 1] = arr[j + 1], arr[j] #перетаскиваие большего элемента вправо
+                swaps += 1 #за перетаскивание
+    return arr, comparisons, swaps
+
