@@ -1,2 +1,2 @@
 # Algorythms-and-data-structures-IHW
-http://localhost:8501/ - ссылка на стримлит
+https://algorythms-and-data-structures-ihw-b6uu72ccunaokqxzepbe3b.streamlit.app/- ссылка на стримлит
