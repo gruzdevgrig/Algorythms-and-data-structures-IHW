@@ -8,13 +8,13 @@ from scipy.optimize import curve_fit
 # ==========================================
 # 1. РЕАЛИЗАЦИЯ АЛГОРИТМОВ (СОГЛАСНО ТЗ)
 # ==========================================
- 
 
 def counting_sort(arr: list) -> tuple[list, int]:
     '''Сортировка подсчетом.
         Возвращает: (отсортированный_массив, comparisons, swaps)
         Сложность: O(N + k) по времени, O(k) по памяти.'''
     swaps = 0 #счетчик перезаписей и перестановок
+    comparisons = 0
     max_val = max(arr) 
     min_val = min(arr) 
     count_list = [0] * (max_val - min_val +1) #делаем массив нулей длиной с рабочий диапазон, чтобы расположить количества данного значения на месте его расположения в рабочем диапазоне
@@ -27,8 +27,7 @@ def counting_sort(arr: list) -> tuple[list, int]:
         for _ in range(count_list[index]):
             arr.append(i)
             swaps += 1 #записываем каждое добавление в результирующий массив в счетчик перезаписей и перестановок
-    return arr, swaps
-        
+    return arr, swaps, comparisons
 
 def ins_sort(arr: list) -> tuple[list, int, int]:
     '''Сортировка вставкой.
@@ -51,22 +50,8 @@ def ins_sort(arr: list) -> tuple[list, int, int]:
     return arr, swaps, comparisons
 
 
-'''def bubble_sort(arr: list) -> None:
-    Сортировка пузырьком.
-        Возвращает: (отсортированный_массив, comparisons, swaps)
-        Сложность: O(N^2) по времени, O(1) по памяти.
-    comparisons = 0 #да уже понятно че это
-    swaps = 0 #да уже понятно че это
-    n = len(arr)
-    for i in range(n - 1):
-        for j in range(n - i - 1): 
-            comparisons  += 1
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j] #перетаскиваие большего элемента вправо
-                swaps += 1 #за перетаскивание
-    return arr, comparisons, swaps
-'''
-def bubble_sort_optimized(arr: list[int | float]) -> tuple[list[int | float], int, int]:
+
+def bubble_sort(arr: list[int | float]) -> tuple[list[int | float], int, int]:
     """
     Сортировка пузырьком с флаговой оптимизацией.
     Возвращает: (отсортированный_массив, comparisons, swaps)
